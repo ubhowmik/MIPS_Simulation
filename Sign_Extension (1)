@@ -1,0 +1,20 @@
+.data   #declare data segment
+a: .word -10
+b: .word 8
+c: .word 0
+e: .half -10
+
+.text #code segment
+
+lw $s0, a  #load data from a
+lw $s1, b  #load b data
+addi $t0, $s1, 10 #perform addition
+add $t1, $s0, $t0
+sw $t1, c   #store the result into c (memory)
+lw $s2, e  #checking sign extension
+lh $s3, e #Checking sign extension
+add $t2,$s2,$s1
+add $t3,$s3,$s1
+
+#Checking Machine CODE
+add $t0, $s1, $s2

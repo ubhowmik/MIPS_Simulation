@@ -1,0 +1,14 @@
+.data   #declare data segment
+a: .word -10
+b: .word 8
+e: .byte -10
+
+.text #code segment
+
+lw $s0, a  #load data from a
+lw $s1, b  #load b data
+add $t0, $s0, $s1
+lw $s2, e  #checking sign extension
+lb $s3, e #Checking sign extension
+add $t1,$s2,$s1
+add $t2,$s3,$s1

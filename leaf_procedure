@@ -1,0 +1,39 @@
+# Procedure Example (leaf Procedure)
+# Call a function to perform f=(g+h)-(i+j) 
+.data 
+g: .word 12
+h: .word 6
+i: .word 10
+j: .word 2
+f: .word  0 # store the result
+.text
+# put the data in the argument registers. 
+# arguments resisters are used to pass-parameters in the procedure (function)
+lw $a0, g
+lw $a1, h 
+lw $a2, i 
+lw $a3, j
+la $s0, f # store the location of f to store results
+
+# Call the leaf_procedure
+jal leaf_procedure
+sw $v0, 0($s0) # store the return value (i.e result) from the function into f
+j halt
+
+#the leaf_procedure
+leaf_procedure:
+addi $sp, $sp, -4  # reserve space in the stack to store $s0
+sw   $s0, 0($sp)  # save $s0 into the stack
+add  $t0, $a0, $a1  # perform (g+h)
+add  $t1, $a2, $a3  # perform (i+j)
+sub  $s0, $t0, $t1  # perform (g+h)-(i+j) and save the result in $s0
+add  $v0, $s0, $zero  # put the result in the return resister $v0
+lw   $s0, 0($sp)  #restore $s0 for the caller
+addi $sp, $sp, 4  #free-up stack space
+jr   $ra     #jump back to the calling program
+
+halt:
+nop
+
+
+  

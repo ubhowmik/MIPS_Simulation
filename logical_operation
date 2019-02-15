@@ -1,0 +1,25 @@
+# logical Operation (AND, OR, NOR, NOT, Shift
+
+.data
+
+.text
+
+li $s0, 0x00000009  # load $s0 with 9
+
+sll $s1, $s0, 4    # shift register $s0 by 4 biits (i.e. <<4). $s0 = 144 (i.e 0x00000090)
+
+li $t2, 0x00000dc0  # load $t2 with 0000 0000 0000 0000 0000 1101 1100 0000
+li $t1, 0x00003c00  # load $t1 with 0000 0000 0000 0000 0011 1100 0000 0000
+and $t0,$t1,$t2     # after execution $t0 should have:
+                    #               0000 0000 0000 0000 0000 1100 0000 0000  (0x00000c00)
+
+or  $t0,$t1,$t2     #               0000 0000 0000 0000 0011 1101 1100 0000  (0x00003dc0)
+
+and $t3,$t3,$zero  # load $t3 with 0 (efficient technique)
+                 
+                   # After NOR operation $t0 should have
+                   
+nor $t0, $t1, $t3  #                1111 1111 1111 1111 1100 0011 1111 1111 (0xfffc3ff)
+
+
+

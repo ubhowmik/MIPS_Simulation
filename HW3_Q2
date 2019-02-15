@@ -1,0 +1,52 @@
+# HW3_Q2 
+.data 
+g: .word 12
+h: .word 6
+i: .word 1
+j: .word 0
+f: .word  0 # store the result
+.text
+# put the data in the argument registers. 
+# arguments resisters are used to pass-parameters in the procedure (function)
+lw $a0, g
+lw $a1, h 
+lw $a2, i 
+lw $a3, j
+la $s0, f # store the location of f to store results
+
+# Call the Add_Sub_Mul
+jal Add_Sub_Mul
+sw $v0, 0($s0) # store the return value (i.e result) from the function into f
+j halt
+
+# Add_Sub_Mul Procedure
+Add_Sub_Mul:
+addi $sp, $sp, -4  # reserve space in the stack to store $s0
+sw   $s0, 0($sp)  # save $s0 into the stack
+
+#test if i==j
+bne $a2, $a3, UnEq
+li $s0, 0 # f=0
+j store_result
+
+#test condition if (i > j) or (i<j)
+UnEq:
+slt $t0, $a2, $a3  #set $t0 if (i < j)
+beq $t0, $zero, GrTh # go to GrTh if (i>j) 
+sub $s0, $a0, $a1 # f = g-h
+j store_result
+
+GrTh:
+add  $s0, $a0, $a1  # perform (g+h)
+
+store_result:
+add  $v0, $s0, $zero  # put the result in the return resister $v0
+lw   $s0, 0($sp)  #restore $s0 for the caller
+addi $sp, $sp, 4  #free-up stack space
+jr   $ra     #jump back to the calling program
+
+halt:
+nop
+
+
+  

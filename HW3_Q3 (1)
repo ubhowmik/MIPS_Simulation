@@ -1,0 +1,39 @@
+# Procedure Example (Nested Procedure)
+# Call a function to perform n+(n-1) 
+.data 
+n: .word 5
+F: .word  0 # store the result
+.text
+# put the data in the argument register. 
+# arguments resisters are used to pass-parameters in the procedure (function)
+lw $a0, n
+la $s0, F # store the location of F to store results
+
+# Call the sum nested_procedure
+jal sum
+sw $v0, 0($s0) # store the return value (i.e result) from the function into F
+j halt
+
+#the nested_procedure (fact)
+sum:
+addi $sp, $sp, -8  # reserve space in the stack to store $a0 and $ra
+		   # adjust stack for 2 items  
+sw   $ra, 4($sp)      # save return address    
+sw   $a0, 0($sp)      # save argument    
+slti $t0, $a0, 1      # test for n < 1    
+beq  $t0, $zero, L1    
+addi $v0, $zero, 0    # if so, result is 0    
+addi $sp, $sp, 8      #   pop 2 items from stack    
+jr   $ra              #   and return
+L1: addi $a0, $a0, -1     # else decrement n    
+jal  sum       # recursive call    
+lw   $a0, 0($sp)      # restore original n    
+lw   $ra, 4($sp)      #   and return address    
+addi $sp, $sp, 8      # pop 2 items from stack    
+addu $v0, $a0, $v0    # Add to get result    
+jr   $ra              # and return
+halt:
+nop
+
+
+  

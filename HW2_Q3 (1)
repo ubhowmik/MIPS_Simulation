@@ -1,0 +1,12 @@
+.data
+
+.text
+li $s0, 0x80000000
+li $s1, 0xE0000000
+
+addu $t0, $s0, $s1
+add $t1, $s0, $s1
+
+# addu does not produce correct result. There is an overflow in the arithmetic operation. 
+# addu ignore the overflow during the execution.
+# add terminate the operation, because of overflow.

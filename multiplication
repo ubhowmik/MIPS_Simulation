@@ -1,0 +1,12 @@
+.data
+a: .word  0x7fffffff
+b: .word  0x8fffffff
+
+.text
+lw $s0, a
+lw $s1, b
+add $t1, $s0, $zero
+add $t2,$s1,$zero
+multu $t1,$t2 
+mflo $s0
+mfhi $s1

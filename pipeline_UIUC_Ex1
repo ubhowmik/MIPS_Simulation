@@ -1,0 +1,11 @@
+.data # Declare Data Segment
+
+.text # Declare Code Segment
+
+li $t1, 10 #load Immediate
+li $t2, 11 #load Immediate
+add $t3, $t1, $t2 #Addition operation
+add $t3, $t1, $t3 
+add $t5, $t4, $t2
+add $t6, $t7, $t5
+sub $s0, $t8, $t9 #Subtraction operation

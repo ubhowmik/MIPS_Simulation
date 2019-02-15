@@ -1,0 +1,31 @@
+# Convert Temperature in Fahrenheit to Celsius
+# Using DOUBLE precision
+
+.data
+
+const: .double 5.00, 9.00, 32.00, 00.00 # define constants
+fahr: .double 40.00
+
+.text
+
+la $gp, const # load the base address of Const Array
+la $a0, fahr # Load the address of fahr into $ao
+l.d $f12, 0($a0) #load the value of fahr into $f12
+
+jal f2c
+l.d $f2, 24($gp) #load 0.0 into $f2
+add.d $f12,$f0,$f2 # transfer $f0 to $f12
+li $v0, 3  # print_double
+syscall    # print result (see the syscall ppt slide)
+j exit
+
+f2c: l.d  $f16, 0($gp)
+     l.d  $f18, 8($gp)
+     div.d $f16, $f16, $f18
+     l.d  $f18, 16($gp)
+     sub.d $f18, $f12, $f18
+     mul.d $f0,  $f16, $f18
+     jr    $ra
+
+exit: 
+nop

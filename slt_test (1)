@@ -1,0 +1,9 @@
+.text
+#li $t1, 0x12345678
+li $t1, 0xffffffff
+li $t2, 1
+slt $t4, $t1, $t2
+sltu $t4, $t1, $t2
+lui $t2, 1
+xor $t3, $t1, $t2
+slt $t3, $t3,$zero

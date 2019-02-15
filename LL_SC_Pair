@@ -1,0 +1,16 @@
+.data
+A: .word 12
+
+.text
+again:
+la $s1, A
+addi $t0, $zero, 1
+ll $t1, 0($s1)
+lw $t1, 0($s1)
+nop
+nop
+la $t4,A
+sw $t1, 0($t4)
+sc $t0, 0($s1)
+beq $t0, $zero, again
+add $s4, $zero, $t1

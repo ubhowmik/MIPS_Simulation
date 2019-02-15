@@ -1,0 +1,5 @@
+.data
+a: .byte -4
+.text
+
+lw $s0, 32($t2)

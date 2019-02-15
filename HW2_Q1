@@ -1,0 +1,13 @@
+.data   #declare data segment
+a: .word 10
+b: .word 12
+c: .word 0
+
+
+.text #code segment
+
+lw $s0, a  #load data from a
+lw $s1, b  #load b data
+addi $t0, $s1, 10 #perform addition
+add $t1, $s0, $t0
+sw $t1, c   #store the result into c (memory)

@@ -1,0 +1,28 @@
+# Conditional Statement (bne) Example
+# if (i==j) f=g+h; else f=g-h;
+
+.data
+
+.text
+
+li $s1, 8  #load g=8
+li $s2, 5  #load h=5
+
+li $s3, 5  #load i
+li $s4, 5  #load j
+
+# bne $s3,$s4, Else  # got to Else if "i" is not equal to "j"
+
+beq $s3,$s4, Else  # got to Else if "i" is not equal to "j"
+
+add $s0, $s1, $s2   # f=g+h if i==j
+
+j Exit   # go to Exit
+
+# li $s5,10
+# li $s6,11
+
+Else: sub $s0, $s1, $s2  # f = g-h, if bne is satisfied
+
+Exit:    #termination 
+

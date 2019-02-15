@@ -1,0 +1,48 @@
+#Detecting Overflow in unsigned addition
+# HW#6_Q2_b
+
+.data
+A: .word 3000000000, 2000000000, 2000000000, 4000000000
+B: .word 1000000000, 3000000000, 1000000000, 1000000000
+C: .space 16 #allocting spce for storing results
+
+
+.text
+la $s0, A # Load Address of A
+la $s1, B # Load Address of B
+la $s2, C # Load Address of C
+
+li $s3, 0 # Starting index of i
+li $t5, 4 # Loop bound
+
+li $s4,0x00000000 # Overflow Indicator
+
+loop:
+lw $t1, 0($s0) # Load A[i]
+lw $t2, 0($s1) # Load B[i]
+
+addu $t0, $t1, $t2 # $t0 = sum
+nor $t3, $t1, $zero # $t3 = NOT $t1
+                    # (2’s comp – 1: 232 – $t1 – 1)
+sltu $t3, $t3, $t2 # (232 – $t1 – 1) < $t2
+                   # ? 232 – 1 < $t1 + $t2
+bne $t3,$zero,Overflow # if(232–1<$t1+$t2) goto overflow
+
+sw $t0, 0($s2)
+addi $s0, $s0, 4 # Go to A[i+1]
+addi $s1, $s1, 4 # Go to B[i+1]
+addi $s2, $s2, 4 # Go to C[i+1]
+addi $s3, $s3, 1 # Increment index variable
+bne $s3, $t5, loop # Compare with Loop Bound
+j End
+
+Overflow:
+sw $s4, 0($s2) # Store 0xffffffff in C
+addi $s0, $s0, 4 # Go to A[i+1]
+addi $s1, $s1, 4 # Go to B[i+1]
+addi $s2, $s2, 4 # Go to C[i+1]
+addi $s3, $s3, 1 # Increment index variable
+bne $s3, $t5, loop # Compare with Loop Bound
+
+End:
+nop

@@ -1,0 +1,4 @@
+.data
+
+x: .float -0.625
+y: .float 8.75

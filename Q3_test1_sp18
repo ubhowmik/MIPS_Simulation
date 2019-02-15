@@ -1,0 +1,32 @@
+# Q3 (leaf_Procedure)
+# Call a function to perform fact=n*(n-1)*(n-2)*.....*1
+# where n is a positive number 
+.data 
+n: .word 5
+fact: .word   # store the result
+.text
+# put the data in the argument registers. 
+# arguments resisters are used to pass-parameters in the procedure (function)
+lw $a0, n
+la $s0, fact # load the address of fact in $s0 register
+# Call the leaf_procedure
+jal leaf_procedure
+sw $v0, 0($s0) # store the return value of the procedure in to fact location. 
+j halt
+#the leaf_procedure
+leaf_procedure: addi $sp, $sp, -4  # reserve space in the stack to store $s0
+sw   $s0, 0($sp)  # save $s0 into the stack
+add  $s0, $a0, $zero #load the value of $a0 to $so
+loop: addi $a0, $a0, -1  #decrementing the value of $a0 by 1
+slti $t0, $a0,1    #check if $a0 < 1
+bne  $t0,$zero, exit #reached end of the loop
+mul  $s0, $s0, $a0 #Performing n*(n-1)*(n-2)*.....*1
+j loop #looping 
+exit:add  $v0, $s0, $zero  # put the result in the return resister $v0
+lw   $s0, 0($sp)  #restore $s0 for the caller
+addi $sp, $sp, 4  #free-up stack space
+jr   $ra     #jump back to the calling program
+halt: nop
+
+
+  

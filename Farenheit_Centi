@@ -1,0 +1,31 @@
+# Convert Temperature in Fahrenheit to Celsius
+# Using SINGLE precision
+
+.data
+
+const: .float 5.0, 9.0, 32.0, 0.0 # define constants
+fahr: .float 40.0
+
+.text
+
+la $gp, const # load the base address of Const Array
+la $a0, fahr # Load the address of fahr into $ao
+lwc1 $f12, 0($a0) #load the value of fahr into $f12
+
+jal f2c
+lwc1 $f2, 12($gp) #load 0.0 into $f2
+add.s $f12,$f0,$f2 # transfer $f0 to $f12
+li $v0, 2  # print_float
+syscall    # print result (see the syscall ppt slide)
+j exit
+
+f2c: lwc1  $f16, 0($gp)
+     lwc1  $f18, 4($gp)
+     div.s $f16, $f16, $f18
+     lwc1  $f18, 8($gp)
+     sub.s $f18, $f12, $f18
+     mul.s $f0,  $f16, $f18
+     jr    $ra
+
+exit: 
+nop

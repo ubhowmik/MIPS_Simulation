@@ -1,0 +1,11 @@
+.data
+ A:	.word  10,15,20,5,30,0     #  declare the array
+.text
+la $t0, A     #  load base address of array into register $t0
+lw $s0, 12($t0)    #load A[3]
+lw $s1, 16($t0)    #load A[4]
+add $t1, $s0, $s1	#  perform A[3]+A[4]
+sw $t1, 20($t0)		#  store results into A[5]
+sub $t1, $s1, $s0       # subtract A[4]-A[3]
+sw $t1, 0($t0)          # Store Results into A[0]
+		
